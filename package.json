@@ -1,0 +1,35 @@
+{
+    "name": "discord-bot-app",
+    "version": "1.0.0",
+    "description": "A Discord bot built with Discord.js and TypeScript",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts",
+        "watch": "tsc -w"
+    },
+    "keywords": [
+        "discord",
+        "bot",
+        "typescript",
+        "discord.js"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+        "@grammyjs/storage-mongodb": "^2.5.1",
+        "cron": "^4.3.0",
+        "discord.js": "^14.14.1",
+        "dotenv": "^16.3.1",
+        "mongodb": "^6.16.0",
+        "mongoose": "^8.15.1",
+        "pm2": "^6.0.6",
+        "winston": "^3.17.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.5",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
+    }
+}
