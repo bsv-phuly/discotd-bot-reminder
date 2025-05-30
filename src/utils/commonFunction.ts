@@ -18,7 +18,7 @@ export function formatTimeLine(time: string) {
     return formatTime(reminderDate);
 }
 
-export function getJobKey(chatId: number, link: string, time: string): string {
+export function getJobKey(chatId: number | string, link: string, time: string): string {
     return `${chatId}_${link}_${time}`;
 }
 

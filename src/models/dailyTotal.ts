@@ -4,8 +4,6 @@ import { IOrder } from './orders'
 export interface IDailyTotal {
     userId: number;
     username?: string;
-    firstName?: string;
-    lastName?: string;
     totalAmount: number;
     orderCount: number;
     createdAt: Date;
@@ -15,8 +13,6 @@ export interface IDailyTotal {
 const dailyTotalSchema = new mongoose.Schema<IDailyTotal>({
     userId: { type: Number, required: true, unique: true },
     username: String,
-    firstName: String,
-    lastName: String,
     totalAmount: Number,
     orderCount: Number,
     orders: Array<IOrder>,

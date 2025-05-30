@@ -1,12 +1,14 @@
 import { Client, GatewayIntentBits, Events, Collection } from 'discord.js';
-import { config } from 'dotenv';
 import { Command } from './types/Command';
 import { loadCommands } from './utils/commandLoader';
 import { handleInteraction } from './handlers/interactionHandler';
 import { handleMessage } from './handlers/messageHandler';
+import { Database } from './database/db';
+import { config } from './config';
+import { logger } from './utils/logger';
 
-// Load environment variables
-config();
+// Initialize database
+const database = new Database();
 
 // Create Discord client with necessary intents
 const client = new Client({
@@ -30,10 +32,20 @@ client.commands = new Collection<string, Command>();
 // Event: Bot is ready
 client.once(Events.ClientReady, async (readyClient) => {
     console.log(`✅ Bot is online! Logged in as ${readyClient.user.tag}`);
+    logger.info(`✅ Bot is online! Logged in as ${readyClient.user.tag}`);
+
+    // Connect to database
+    try {
+        await database.connect();
+        logger.info('📊 Database connected successfully');
+    } catch (error) {
+        logger.error('❌ Database connection failed:', error);
+        process.exit(1);
+    }
 
     // Load commands
     await loadCommands(client);
-    console.log(`📚 Loaded ${client.commands.size} commands`);
+    logger.info(`📚 Loaded ${client.commands.size} commands`);
 });
 
 // Event: Handle interactions (slash commands)
@@ -41,6 +53,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     await handleInteraction(client, interaction);
 });
 
+// Event: Handle messages
 client.on(Events.MessageCreate, async (message) => {
     await handleMessage(message);
 });
@@ -55,8 +68,23 @@ client.on('warn', (warning) => {
     console.warn('⚠️ Discord client warning:', warning);
 });
 
+// Graceful shutdown
+process.on('SIGINT', async () => {
+    logger.info('🔄 Shutting down gracefully...');
+    await database.close();
+    client.destroy();
+    process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+    logger.info('🔄 Shutting down gracefully...');
+    await database.close();
+    client.destroy();
+    process.exit(0);
+});
+
 // Login to Discord
-client.login(process.env.DISCORD_TOKEN).catch((error) => {
+client.login(config.discord.token).catch((error) => {
     console.error('❌ Failed to login:', error);
     process.exit(1);
 });

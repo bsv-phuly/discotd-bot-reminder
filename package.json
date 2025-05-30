@@ -18,7 +18,9 @@
     "author": "Your Name",
     "license": "MIT",
     "dependencies": {
+        "@google/genai": "^1.2.0",
         "@grammyjs/storage-mongodb": "^2.5.1",
+        "bson": "^6.10.3",
         "cron": "^4.3.0",
         "discord.js": "^14.14.1",
         "dotenv": "^16.3.1",

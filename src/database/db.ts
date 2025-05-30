@@ -10,7 +10,7 @@ export class Database {
     async connect(): Promise<void> {
         try {
             await mongoose.connect(this.uri, { dbName: this.dbName});
-            console.log('Connected to MongoDB');
+            logger.info('Connected to MongoDB');
         } catch (error) {
             console.error('Failed to connect to MongoDB:', error);
             logger.error('Failed to connect to MongoDB' + error);
@@ -20,6 +20,6 @@ export class Database {
 
     async close(): Promise<void> {
         await mongoose.disconnect();
-        console.log('MongoDB connection closed');
+        logger.info('MongoDB connection closed');
     }
 }

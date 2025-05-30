@@ -5,7 +5,7 @@ export interface IChatHistory {
     chatId: number;
     userId: number;
     username?: string;
-    role: 'user' | 'model';
+    role: 'user' | 'bot';
     content: string;
     timestamp: Date;
     hasImage?: boolean;

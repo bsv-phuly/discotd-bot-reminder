@@ -1,9 +1,12 @@
+import { UUID } from "bson";
+import { ChatHistory, IChatHistory } from "../../models/chatHistory";
 import { Chat, IChat } from "../../models/chats";
 import { IOrder, Order } from "../../models/orders";
 import { IProducts, Products } from "../../models/products";
 import { IUser, User } from "../../models/user";
 import { expandAbbreviations, normalizeText } from "../../utils/commonFunction";
 import { logger } from "../../utils/logger";
+import { User as DiscordUser, Guild } from "discord.js";
 
 export class UserRepository {
     async findByDiscordId(discordId: string): Promise<IUser | null> {
@@ -197,5 +200,17 @@ export class ProductRepository {
 
     async getProductsByCategory(category: string): Promise<IProducts[]> {
         return Products.find({ category }).lean();
+    }
+}
+
+export class ChatHistoryRepository {
+    async saveChatHistory(userId: string, message: any, username?: string, guildId?: string) {
+        await ChatHistory.insertOne({
+            id: `${Date.now()}_${userId}`,
+            chatId: guildId ? parseInt(guildId) : 0,
+            userId: parseInt(userId),
+            username: username,
+            ...message
+        });
     }
 }

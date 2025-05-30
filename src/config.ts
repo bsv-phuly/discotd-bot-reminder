@@ -9,11 +9,14 @@ export interface Config {
         uri: string;
         dbName: string;
     };
-    disbord: {
+    discord: {
         token: string;
         clientId: string;
-        guideId: string;
+        guildId: string;
         permissionNumber: string;
+    };
+    ai: {
+        gemini_key: string;
     };
     scheduler: {
         summaryTime: string;
@@ -33,14 +36,17 @@ function getEnvVariable(key: string, defaultValue?: string): string {
 
 export const config: Config = {
     mongodb: {
-        uri: getEnvVariable('MONGODB_URI', 'mongodb://localhost:27017/disbord-bot'),
-        dbName: getEnvVariable('DB_NAME', 'disbord-bot'),
+        uri: getEnvVariable('MONGODB_URI', 'mongodb://localhost:27017/discord-bot'),
+        dbName: getEnvVariable('DB_NAME', 'discord-bot'),
     },
-    disbord: {
+    discord: {
         token: getEnvVariable('DISCORD_TOKEN'),
         clientId: getEnvVariable('CLIENT_ID'),
-        guideId: getEnvVariable('GUILD_ID'),
+        guildId: getEnvVariable('GUILD_ID'),
         permissionNumber: getEnvVariable('PERMISSION_NUMBER'),
+    },
+    ai: {
+        gemini_key: getEnvVariable('GEMINI_API_KEY'),
     },
     scheduler: {
         summaryTime: getEnvVariable('CRON_TIME', '0 17 * * *'),
